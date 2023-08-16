@@ -1,30 +1,33 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import useTitle from "../../hooks/useTitle";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "./authSlice";
+import { useLoginMutation } from "./authApiSlice";
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const Login = () => {
     useTitle('Login');
 
-    const emailRef = useRef();
+    const userRef = useRef();
     const pwdRef = useRef();
+    const errRef = useRef();
 
-    const [email, setEmail] = useState("");
-    const [emailValid, setEmailValid] = useState(false);
-
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [pwdValid, setPwdValid] = useState(false);
+    const [errMsg, setErrMsg] = useState('')
 
-    useEffect(() => {
-        emailRef?.current?.focus();
-    }, []);
+    const [userValid, setUserValid] = useState(false)
+    const [pwdValid, setPwdValid] = useState(false)
 
-    const handleEmailChange = (e) => {
-        const newEmail = e.target.value;
-        setEmail(newEmail);
-        setEmailValid(EMAIL_REGEX.test(newEmail));
+    const [success, setSuccess] = useState(false);
+
+    const handleUserChange = (e) => {
+        const newUser = e.target.value;
+        setUsername(newUser);
+        setUserValid(USER_REGEX.test(newUser));
     };
 
     const handlePwdChange = (e) => {
@@ -33,6 +36,46 @@ const Login = () => {
         setPwdValid(PWD_REGEX.test(newPassword));
     };
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const [login, { isLoading }] = useLoginMutation()
+
+    useEffect(() => {
+        userRef?.current?.focus();
+    }, []);
+
+    useEffect(() => {
+        setErrMsg('');
+    }, [username, password])
+
+    const errClass = errMsg ? "errmsg" : "offscreen"
+
+    if (isLoading) return <p>Loading...</p>
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const { accessToken } = await login({ username, password }).unwrap()
+            dispatch(setCredentials({ accessToken }))
+            setSuccess(true);
+            setUsername('')
+            setPassword('')
+            navigate('/dash')
+        } catch (err) {
+            if (!err.status) {
+                setErrMsg('No Server Response');
+            } else if (err.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg(err.data?.message);
+            }
+            errRef.current.focus();
+        }
+    }
+
     return (
         <section className="public">
             <header>
@@ -40,45 +83,57 @@ const Login = () => {
             </header>
             <main className="public__main">
                 <div className="login" style={{ width: "400px" }}>
-                    <div className="form-container">
-                        <h1 className="text-center">Login</h1><br />
-                        <form>
-                            {/* Email */}
-                            <div className="mb-3">
-                                <input
-                                    type="email"
-                                    id="email"
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={handleEmailChange}
-                                    className={`form-control ${emailValid ? "" : "is-invalid"}`}
-                                    ref={emailRef}
-                                />
-                            </div>
+                    {success ? (
+                        <div className="text-center">
+                            <h1>Success!</h1>
+                            <br />
+                        </div>
+                    ) : (
+                        <div className="form-container">
+                            <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
+                            <h1 className="text-center">Login</h1><br />
+                                <form onSubmit={handleSubmit}>
+                                {/* User */}
+                                <div className="mb-3">
+                                    <input
+                                        type="text"
+                                        id="user"
+                                        placeholder="Username"
+                                        value={username}
+                                        onChange={handleUserChange}
+                                        className={`form-control ${userValid ? "" : "is-invalid"}`}
+                                        ref={userRef}
+                                        autoComplete="off"
+                                        required
+                                    />
+                                </div>
 
-                            {/* Password */}
-                            <div className="mb-3">
-                                <input
-                                    type="password"
-                                    id="password"
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={handlePwdChange}
-                                    className={`form-control ${pwdValid ? "" : "is-invalid"}`}
-                                    ref={pwdRef}
-                                />
-                            </div>
-                            <div className="button-container">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                    disabled={!emailValid || !pwdValid}
-                                >
-                                    Sign In
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                                {/* Password */}
+                                <div className="mb-3">
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        placeholder="Password"
+                                        value={password}
+                                        onChange={handlePwdChange}
+                                        className={`form-control ${pwdValid ? "" : "is-invalid"}`}
+                                        ref={pwdRef}
+                                        autoComplete="off"
+                                        required
+                                    />
+                                </div>
+                                <div className="button-container">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                        disabled={!userValid || !pwdValid}
+                                    >
+                                        Sign In
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    )}
                 </div>
             </main>
             <footer>

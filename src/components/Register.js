@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
+import { useRegisterMutation } from '../features/auth/authApiSlice'
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -36,6 +37,8 @@ const Register = () => {
     // State to track form validity
     const [formValid, setFormValid] = useState(false);
 
+    const [register, { isLoading }] = useRegisterMutation();
+
     useEffect(() => {
         userRef.current.focus();
     }, []);
@@ -66,16 +69,42 @@ const Register = () => {
         setFormValid(validName && validEmail && validPwd && validMatch);
     }, [validName, validEmail, validPwd, validMatch]);
 
-    const handleSubmit = (e) => {
-        const v1 = USER_REGEX.test(user);
-        const v2 = PWD_REGEX.test(pwd);
-        if (!v1 || !v2) {
-            setErrMsg("Invalid Entry");
+    const errClass = errMsg ? "errmsg" : "offscreen"
+
+    if (isLoading) return <p>Loading...</p>
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Check if form is valid before proceeding
+        if (!formValid) {
+            setErrMsg("Please fill in the required fields correctly.");
             return;
         }
-        // Perform your registration logic here
-        // For this example, just setting success to true
-        setSuccess(true);
+
+        // Create a data object with the user's registration information
+        const registrationData = {
+            username: user,
+            email: email,
+            password: pwd,
+        };
+
+        try {
+            // Call the register mutation with registrationData
+            const response = await register(registrationData).unwrap();
+
+            // Registration successful
+            setSuccess(true);
+        } catch (error) {
+            // Handle errors from the register mutation
+            if (error.status === 400) {
+                setErrMsg("Registration failed: Invalid data.");
+            } else if (error.status === 409) {
+                setErrMsg("Username or email already in use.");
+            } else {
+                setErrMsg("An error occurred during registration.");
+            }
+        }
     };
 
     return (
@@ -88,13 +117,14 @@ const Register = () => {
                     {success ? (
                         <div className="text-center">
                             <h1>Success!</h1>
+                            <br />
                             <p>
-                                <Link to="/signin" className="btn btn-primary">Sign In</Link>
+                                <Link to="/login" className="btn btn-primary">Sign In</Link>
                             </p>
                         </div>
                     ) : (
                         <div className="form-container">
-                            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                            <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
                             <h1 className="text-center">Register</h1><br />
                             <form onSubmit={handleSubmit}>
                                 {/* Username */}
@@ -128,6 +158,7 @@ const Register = () => {
                                         type="email"
                                         id="email"
                                         placeholder="Email"
+                                        autoComplete="off"
                                         value={email}
                                         required
                                         onChange={handleEmailChange}
@@ -150,6 +181,7 @@ const Register = () => {
                                         id="password"
                                         placeholder="Password"
                                         onChange={(e) => setPwd(e.target.value)}
+                                        autoComplete="off"
                                         value={pwd}
                                         required
                                         aria-invalid={validPwd ? "false" : "true"}
@@ -173,6 +205,7 @@ const Register = () => {
                                         id="confirm_pwd"
                                         placeholder="Confirm Password"
                                         onChange={(e) => setMatchPwd(e.target.value)}
+                                        autoComplete="off"
                                         value={matchPwd}
                                         required
                                         aria-invalid={validMatch ? "false" : "true"}
