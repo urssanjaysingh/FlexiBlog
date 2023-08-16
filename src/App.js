@@ -1,6 +1,7 @@
 import useTitle from './hooks/useTitle';
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
+import Public from './components/Public'
 import Register from './components/Register'
 import Login from './features/auth/Login'
 import DashLayout from './components/DashLayout'
@@ -10,12 +11,14 @@ import PostsList from './features/posts/PostsList'
 import CommentsList from './features/comments/CommentsList'
 
 function App() {
-  useTitle('flexiBlog')
+  useTitle('FlexiBlog')
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Register />} />
+        <Route index element={<Public />} />
+
+        <Route path="register" element={<Register />} />
 
         <Route path="login" element={<Login />} />
 

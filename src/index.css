@@ -129,9 +129,12 @@ a:focus-visible {
   flex-grow: 1;
 }
 
-.public__main,
-.login {
+.public__main {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   border-top: 2px solid var(--BORDER-COLOR);
   border-bottom: 2px solid var(--BORDER-COLOR);
   padding: 1em 0;
@@ -139,10 +142,6 @@ a:focus-visible {
 
 .public__addr {
   margin-top: 1em;
-}
-
-.welcome a::before {
-  content: "➜ "
 }
 
 /* || DASH HEADER, CONTAINER & FOOTER */
@@ -271,11 +270,15 @@ tr {
 
 /* || FORM - GENERAL */
 
-.form {
+.form-container {
   display: flex;
   flex-flow: column nowrap;
   gap: 0.75em;
-  max-width: 800px;
+  max-width: 800px; /* Adjust the width as needed */
+  padding: 20px;
+  background-color: #0173a7;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adjust the shadow values as needed */
 }
 
 .form__checkbox-container {
@@ -346,13 +349,60 @@ tr {
   gap: 0.5em;
 }
 
-.form-container {
-  max-width: 400px; /* Adjust the width as needed */
-  margin: 0 auto; /* Center the container horizontally */
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  padding: 1rem;
+}
+
+.home__header {
+  font-size: 2rem;
   padding: 20px;
-  background-color: #0173a7;
+  text-align: center;
+  color: #333;
+}
+
+.home__main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home__main p {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.home__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.home__footer a.btn {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: 1px solid transparent;
   border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adjust the shadow values as needed */
+  background-color: #0173a7;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home__footer a.btn:hover {
+  background-color: #015c8b;
+  transform: scale(1.05);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .text-center {
@@ -381,6 +431,19 @@ tr {
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer;
+}
+
+/* Style for a disabled button */
+.btn:disabled {
+  background-color: #ccc; /* Set a background color for disabled state */
+  cursor: not-allowed;   /* Change cursor to indicate disabled state */
+  /* Add any other styles you want for the disabled button */
+}
+
+/* Style for a disabled button when hovered */
+.btn:disabled:hover {
+  background-color: #ccc; /* Set a background color for disabled state */
+  /* Add any other styles you want for the disabled button when hovered */
 }
 
 /* Primary style for btn-primary class */
@@ -454,7 +517,7 @@ tr {
 .instructions {
     font-size: 0.75rem;
     border-radius: 0.5rem;
-    background: #000;
+    background: #333;
     color: #fff;
     padding: 0.25rem;
     position: relative;
@@ -472,6 +535,10 @@ tr {
 
 .hide {
     display: none;
+}
+
+.space {
+    margin-right: 10px; /* Adjust the value to your preferred spacing */
 }
 
 @media screen and (max-width: 400px) {

@@ -10,8 +10,7 @@ const Welcome = () => {
             <p>{today}</p>
             <h1>Welcome!</h1>
             <p><Link to="/dash/posts">View Posts</Link></p>
-            <p><Link to="/dash/users">View User Settings</Link></p>
-            <p><Link to="/dash/comments">View Comments</Link></p>
+            <p><Link to="/dash/users">View Profile</Link></p>
         </section>
     );
 
