@@ -1,17 +1,11 @@
 import { store } from '../../app/store'
-import { usersApiSlice } from '../users/usersApiSlice';
+import { userApiSlice } from '../users/userApiSlice';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 const Prefetch = () => {
     useEffect(() => {
-        console.log('subscribing')
-        const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate())
-
-        return () => {
-            console.log('unsubscribing')
-            users.unsubscribe()
-        }
+        store.dispatch(userApiSlice.util.prefetch('getUsers', 'UserProfile', { force: true }))
     }, [])
 
     return <Outlet />

@@ -11,9 +11,11 @@ const Welcome = () => {
                 <p>Discover topics that interest you and stay updated with the latest content.</p>
             </main>
             <footer className="home__footer">
-                <Link className='btn btn-link' to="/register">Sign Up</Link>
-                <Link className='btn btn-link' to="/login">Sign In</Link>
-                <Link className='btn btn-link' to="/blog">Explore Blog Posts</Link>
+                <div className="footer-links">
+                    <Link className='btn btn-link' to="/register">Sign Up</Link>
+                    <Link className='btn btn-link' to="/login">Sign In</Link>
+                    <Link className='btn btn-link' to="/blog">Explore Blog Posts</Link>
+                </div>
             </footer>
         </section>
     );

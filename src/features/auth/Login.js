@@ -4,6 +4,7 @@ import useTitle from "../../hooks/useTitle";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "./authSlice";
 import { useLoginMutation } from "./authApiSlice";
+import usePersist from '../../hooks/usePersist';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -18,6 +19,8 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState('')
+
+    const [persist, setPersist] = usePersist()
 
     const [userValid, setUserValid] = useState(false)
     const [pwdValid, setPwdValid] = useState(false)
@@ -35,6 +38,8 @@ const Login = () => {
         setPassword(newPassword);
         setPwdValid(PWD_REGEX.test(newPassword));
     };
+
+    const handleToggle = () => setPersist(prev => !prev)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -54,14 +59,17 @@ const Login = () => {
     if (isLoading) return <p>Loading...</p>
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const { accessToken } = await login({ username, password }).unwrap()
-            dispatch(setCredentials({ accessToken }))
+            const { accessToken } = await login({ username, password }).unwrap();
+            dispatch(setCredentials({ accessToken }));
             setSuccess(true);
-            setUsername('')
-            setPassword('')
-            navigate('/dash')
+            setUsername('');
+            setPassword('');
+            navigate('/dash');
+
+            // Display tokens and user information in the console
+            console.log('Access Token:', accessToken);
         } catch (err) {
             if (!err.status) {
                 setErrMsg('No Server Response');
@@ -74,7 +82,7 @@ const Login = () => {
             }
             errRef.current.focus();
         }
-    }
+    };
 
     return (
         <section className="public">
@@ -92,7 +100,7 @@ const Login = () => {
                         <div className="form-container">
                             <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
                             <h1 className="text-center">Login</h1><br />
-                                <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit}>
                                 {/* User */}
                                 <div className="mb-3">
                                     <input
@@ -130,7 +138,22 @@ const Login = () => {
                                     >
                                         Sign In
                                     </button>
-                                </div>
+                                    </div>
+                                    <br />
+                                    <label htmlFor="persist" style={{ display: 'flex', alignItems: 'center' }}>
+                                        <input
+                                            type="checkbox"
+                                            style={{
+                                                width: "20px",
+                                                height: "20px",
+                                                marginRight: "8px",
+                                            }}
+                                            id="persist"
+                                            onChange={handleToggle}
+                                            checked={persist}
+                                        />
+                                        Remember Me
+                                    </label>
                             </form>
                         </div>
                     )}
