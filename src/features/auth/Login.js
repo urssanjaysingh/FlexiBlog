@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import useTitle from "../../hooks/useTitle";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "./authSlice";
 import { useLoginMutation } from "./authApiSlice";
 import usePersist from '../../hooks/usePersist';
+import Cookies from 'js-cookie';
+import useTitle from "../../hooks/useTitle";
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -56,13 +58,23 @@ const Login = () => {
 
     const errClass = errMsg ? "errmsg" : "offscreen"
 
-    if (isLoading) return <p>Loading...</p>
+    if (isLoading) return <PulseLoader color={"#FFF"} />
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { accessToken } = await login({ username, password }).unwrap();
-            dispatch(setCredentials({ accessToken }));
+            const response = await login({ username, password }).unwrap();
+            const { accessToken, userId } = response;
+
+            // Dispatch the setCredentials action with both accessToken and userId
+            dispatch(setCredentials({ accessToken, userId }));
+
+            // Set userId in a cookie with SameSite attribute set to None
+            Cookies.set('userId', userId, { expires: 7, sameSite: 'none', secure: true }); // Expires in 7 days
+
+            // Set the username in a cookie with SameSite attribute set to None
+            Cookies.set('username', username, { expires: 7, sameSite: 'none', secure: true }); // Expires in 7 days
+
             setSuccess(true);
             setUsername('');
             setPassword('');
@@ -70,6 +82,7 @@ const Login = () => {
 
             // Display tokens and user information in the console
             console.log('Access Token:', accessToken);
+            console.log('User ID:', userId);
         } catch (err) {
             if (!err.status) {
                 setErrMsg('No Server Response');

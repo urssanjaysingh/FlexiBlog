@@ -1,6 +1,7 @@
 import React from 'react';
 import User from './User';
 import { useGetUsersQuery, useUpdateUserMutation } from "./userApiSlice";
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const UserProfile = () => {
     const [updateUserMutation] = useUpdateUserMutation();
@@ -36,7 +37,7 @@ const UserProfile = () => {
     let content;
 
     if (isProfileLoading) {
-        content = <p>Loading...</p>;
+        content = <PulseLoader color={"#FFF"} />;
     } else if (isProfileError) {
         content = <p className="errmsg">{profileError?.data?.message}</p>;
     } else if (userProfile) {

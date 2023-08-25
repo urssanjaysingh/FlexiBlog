@@ -387,12 +387,12 @@ tr {
 }
 
 .footer-links {
-    /* Flex layout to allow links to wrap and shrink */
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between links */
+  /* Flex layout to allow links to wrap and shrink */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between links */
 
-    /* Apply additional styling as needed */
+  /* Apply additional styling as needed */
 }
 
 .home__footer a.btn {
@@ -572,7 +572,7 @@ tr {
 
 .user-profile__email {
   font-size: 16px;
-  color: #FFF;
+  color: #fff;
 }
 
 .user-profile__name {
@@ -583,7 +583,7 @@ tr {
 .user-profile__bio {
   margin-top: 5px;
   font-size: 16px;
-  color: #FFF;
+  color: #fff;
 }
 
 .user-profile__avatar img {
@@ -596,35 +596,167 @@ tr {
 .user-profile__actions {
   margin-left: 20px;
 }
+
 .avatar-upload-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 300px; /* Reduced max-width */
-    margin: 0;
-    padding: 10px; /* Reduced padding */
-    background-color: #0173a7;
-    border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px; /* Reduced max-width */
+  margin: 0;
+  padding: 10px; /* Reduced padding */
+  background-color: #0173a7;
+  border-radius: 5px;
 }
 
 .avatar-input {
-    padding: 4px; /* Reduced padding */
-    border: 1px solid #ccc;
-    border-radius: 4px; /* Reduced border-radius */
-    margin-bottom: 8px; /* Reduced margin */
+  padding: 4px; /* Reduced padding */
+  border: 1px solid #ccc;
+  border-radius: 4px; /* Reduced border-radius */
+  margin-bottom: 8px; /* Reduced margin */
 }
 
 .btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px; /* Reduced border-radius */
-    cursor: pointer;
-    padding: 6px 10px; /* Adjusted padding */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px; /* Reduced border-radius */
+  cursor: pointer;
+  padding: 6px 10px; /* Adjusted padding */
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+  margin: 0 auto; /* Center the post list horizontally */
+}
+
+.post-card {
+  width: 100%;
+  padding: 20px;
+  background-color: #0173a7;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+}
+
+.post-title {
+  margin: 0;
+}
+
+.post-content {
+  text-align: justify;
+  margin-top: 20px;
+  font-family: "Nunito", sans-serif; /* Apply the desired font family */
+  font-size: 18px;
+}
+
+.post-meta {
+  margin-top: 10px;
+  font-size: 12px;
+  font-style: italic;
+  color: #ccc;
+}
+
+.post-image {
+  display: flex;
+  margin-top: 10px;
+}
+
+.post-image img {
+  max-width: 30%;
+  height: auto;
+}
+
+.post-page-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  color: #000;
+  border-radius: 5px;
+}
+
+.post-page-container h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+  margin-top: 10px;
+}
+
+.post-page-image {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-page-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.post-page-meta {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 13px;
+  font-style: italic;
+  color: #333;
+}
+
+.post-page-content {
+  text-align: justify;
+  margin-top: 20px;
+  font-family: "Nunito", sans-serif; /* Apply the desired font family */
+  font-size: 18px;
+}
+
+.create-post-form {
+    max-width: 100%;
+}
+
+.create-form-group {
+    margin-bottom: 15px;
+}
+
+input[type=file] {
+  width: 400px;
+  max-width: 100%;
+  color: #444;
+  padding: 5px;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #555;
+}
+
+input[type=file]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #084cdf;
+  padding: 6px 20px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+  background: #0d45a5;
+}
+
 
 @media screen and (max-width: 400px) {
   h1 {
@@ -641,11 +773,11 @@ tr {
 }
 
 @media (max-width: 768px) {
-    .footer-links {
-        flex-direction: column; /* Change to a vertical layout */
-        align-items: center; /* Center-align items vertically */
-        text-align: center; /* Center-align text within links */
-    }
+  .footer-links {
+    flex-direction: column; /* Change to a vertical layout */
+    align-items: center; /* Center-align items vertically */
+    text-align: center; /* Center-align text within links */
+  }
 }
 
 @media screen and (min-width: 768px) {

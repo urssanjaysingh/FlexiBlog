@@ -4,6 +4,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
 import { useRegisterMutation } from '../features/auth/authApiSlice'
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -71,7 +72,7 @@ const Register = () => {
 
     const errClass = errMsg ? "errmsg" : "offscreen"
 
-    if (isLoading) return <p>Loading...</p>
+    if (isLoading) return <PulseLoader color={"#FFF"} />
 
     const handleSubmit = async (e) => {
         e.preventDefault();

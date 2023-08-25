@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const Welcome = () => {
+const Public = () => {
     const content = (
         <section className="home">
             <header className='home__header'>
@@ -14,7 +14,7 @@ const Welcome = () => {
                 <div className="footer-links">
                     <Link className='btn btn-link' to="/register">Sign Up</Link>
                     <Link className='btn btn-link' to="/login">Sign In</Link>
-                    <Link className='btn btn-link' to="/blog">Explore Blog Posts</Link>
+                    <Link className='btn btn-link' to="/posts">Explore Blog Posts</Link>
                 </div>
             </footer>
         </section>
@@ -23,4 +23,4 @@ const Welcome = () => {
     return content;
 }
 
-export default Welcome;
+export default Public;

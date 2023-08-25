@@ -8,10 +8,13 @@ import Login from './features/auth/Login'
 import DashLayout from './components/DashLayout'
 import Welcome from './features/auth/Welcome'
 import UserProfile from './features/users/UserProfile'
-import PostsList from './features/posts/PostsList'
-import CommentsList from './features/comments/CommentsList'
+import PostList from './features/posts/PostList'
+import PostPage from './features/posts/PostPage'
+import CreatePostForm from './features/posts/CreatePostForm'
 import Prefetch from './features/auth/Prefetch'
 import PersistLogin from './features/auth/PersistLogin'
+import UserPostList from './features/users/UserPostList'
+import UserPostPage from './features/users/UserPostPage'
 
 function App() {
   useTitle('FlexiBlog')
@@ -24,6 +27,9 @@ function App() {
         <Route path="register" element={<Register />} />
 
         <Route path="login" element={<Login />} />
+      
+        <Route path="posts" element={<PostList />} />
+        <Route path="/posts/:postId" element={<PostPage />} />
 
         <Route element={<PersistLogin />}>
           <Route element={<Prefetch />}>
@@ -31,16 +37,20 @@ function App() {
 
               <Route index element={<Welcome />} />
 
+              <Route path="post/user/:userId">
+                <Route index element={<UserPostList />} />
+              </Route>
+
+              <Route path="post/create">
+                <Route index element={<CreatePostForm />} />
+              </Route>
+              
+              <Route path="post/user/:userId/:postId">
+                <Route index element={<UserPostPage />} />
+              </Route>
+
               <Route path="users">
                 <Route index element={<UserProfile />} />
-              </Route>
-
-              <Route path="posts">
-                <Route index element={<PostsList />} />
-              </Route>
-
-              <Route path="comments">
-                <Route index element={<CommentsList />} />
               </Route>
 
             </Route>{/* End Dash */}

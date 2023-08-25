@@ -1,38 +1,54 @@
-import { useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
-import { useNavigate, Link, useLocation } from 'react-router-dom'
-
-import { useSendLogoutMutation } from '../features/auth/authApiSlice'
-
-const DASH_REGEX = /^\/dash(\/)?$/
-const POSTS_REGEX = /^\/dash\/posts(\/)?$/
-const USERS_REGEX = /^\/dash\/users(\/)?$/
+import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket, faUser, faEdit, faList } from "@fortawesome/free-solid-svg-icons"; // Import the icons for the buttons
+import { useNavigate, Link } from 'react-router-dom';
+import PulseLoader from 'react-spinners/PulseLoader';
+import { useSendLogoutMutation } from '../features/auth/authApiSlice';
+import Cookies from 'js-cookie';
 
 const DashHeader = () => {
-
-    const navigate = useNavigate()
-    const { pathname } = useLocation()
+    const userId = Cookies.get('userId');
+    
+    const navigate = useNavigate();
 
     const [sendLogout, {
         isLoading,
         isSuccess,
         isError,
         error
-    }] = useSendLogoutMutation()
+    }] = useSendLogoutMutation();
 
     useEffect(() => {
-        if (isSuccess) navigate('/')
-    }, [isSuccess, navigate])
+        if (isSuccess) navigate('/');
+    }, [isSuccess, navigate]);
 
-    if (isLoading) return <p>Logging Out...</p>
+    if (isLoading) return <PulseLoader color={"#FFF"} />;
 
-    if (isError) return <p>Error: {error.data?.message}</p>
+    if (isError) return <p>Error: {error.data?.message}</p>;
 
-    let dashClass = null
-    if (!DASH_REGEX.test(pathname) && !POSTS_REGEX.test(pathname) && !USERS_REGEX.test(pathname)) {
-        dashClass = "dash-header__container--small"
-    }
+    const postListButton = (
+        <Link to={`/dash/post/user/${userId}`}>
+            <button className="icon-button" title="View Posts">
+                <FontAwesomeIcon icon={faList} />
+            </button>
+        </Link>
+    );
+
+    const profileButton = (
+        <Link to="/dash/users">
+            <button className="icon-button" title="View Profile">
+                <FontAwesomeIcon icon={faUser} />
+            </button>
+        </Link>
+    );
+
+    const createPostButton = (
+        <Link to="/dash/post/create">
+            <button className="icon-button" title="Create Post">
+                <FontAwesomeIcon icon={faEdit} />
+            </button>
+        </Link>
+    );
 
     const logoutButton = (
         <button
@@ -42,23 +58,25 @@ const DashHeader = () => {
         >
             <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
-    )
+    );
 
     const content = (
         <header className="dash-header">
-            <div className={`dash-header__container ${dashClass}`}>
+            <div className="dash-header__container">
                 <Link to="/dash">
                     <h1 className="dash-header__title">FlexiBlog</h1>
                 </Link>
                 <nav className="dash-header__nav">
-                    {/* add more buttons later */}
+                    {postListButton}
+                    {profileButton}
+                    {createPostButton}
                     {logoutButton}
                 </nav>
             </div>
         </header>
-    )
+    );
 
-    return content
+    return content;
 }
 
-export default DashHeader
+export default DashHeader;

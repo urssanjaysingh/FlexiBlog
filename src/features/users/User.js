@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import AvatarUploadForm from './AvatarUploadForm';
+import useTitle from '../../hooks/useTitle';
 
 const User = ({ user, avatarUrl, handleUpdateUser }) => {
+    useTitle('Your Profile')
     const [editMode, setEditMode] = useState(false);
     const [editedName, setEditedName] = useState(user.name);
     const [editedBio, setEditedBio] = useState(user.bio);
@@ -12,8 +14,9 @@ const User = ({ user, avatarUrl, handleUpdateUser }) => {
     const [currentAvatar, setCurrentAvatar] = useState(avatarUrl);
 
     const updateAvatar = (newAvatarUrl) => {
-        newAvatarUrl = `http://localhost:3500/avatars/${user.avatar}?timestamp=${Date.now()}`;
+        newAvatarUrl = `http://localhost:3500/avatars/${newAvatarUrl}?timestamp=${Date.now()}`;
         setCurrentAvatar(newAvatarUrl);
+        console.log(currentAvatar)
     };
 
     const handleEdit = () => {
@@ -91,8 +94,8 @@ const User = ({ user, avatarUrl, handleUpdateUser }) => {
                             </div>
                         </div>
                         <div className="user-profile__info">
-                            {/* ... (other content) ... */}
                             <div className="user-profile__avatar">
+                                <br />
                                 <img src={currentAvatar} alt={`${user.username}'s avatar`} />
                                 <AvatarUploadForm
                                     setCurrentAvatar={setCurrentAvatar}
