@@ -587,10 +587,18 @@ tr {
 }
 
 .user-profile__avatar img {
-  max-width: 100px;
-  max-height: 100px;
-  border-radius: 50%;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Maintain aspect ratio and cover entire space */
+  border-radius: 50%; /* Make the image circular */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Slightly elevated shadow */
+  transition: transform 0.2s, box-shadow 0.2s; /* Add smooth transitions */
+}
+
+.user-profile__avatar img:hover {
+  transform: scale(1.1); /* Zoom in slightly on hover */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 .user-profile__actions {
@@ -634,94 +642,117 @@ tr {
   gap: 20px;
   width: 100%;
   padding: 20px;
-  margin: 0 auto; /* Center the post list horizontally */
+  margin: 0 auto;
+  max-width: 800px; /* Added max-width for better content readability */
+}
+
+.author-link {
+    color: #888; /* Set the link color to white */
+    text-decoration: underline; /* Add underline to the link for better visibility */
+    cursor: pointer; /* Change the cursor to indicate the link */
 }
 
 .post-card {
   width: 100%;
   padding: 20px;
-  background-color: #0173a7;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff; /* Changed background color to white */
+  border-radius: 8px; /* Increased border radius for a softer look */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
 
 .post-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.005); /* Added slight scaling on hover */
 }
 
 .post-title {
-  margin: 0;
+  margin-top: 10px;
+  font-size: 24px;
+  color: #333; /* Changed title color */
 }
 
 .post-content {
   text-align: justify;
-  margin-top: 20px;
-  font-family: "Nunito", sans-serif; /* Apply the desired font family */
-  font-size: 18px;
+  margin-top: 10px; /* Reduced top margin for better spacing */
+  font-family: "Nunito", sans-serif;
+  font-size: 16px; /* Adjusted font size for better readability */
+  color: #555; /* Changed content text color */
 }
 
 .post-meta {
-  margin-top: 10px;
+  margin-top: 15px; /* Reduced top margin for better spacing */
   font-size: 12px;
   font-style: italic;
-  color: #ccc;
+  color: #888; /* Adjusted meta text color */
 }
 
 .post-image {
-  display: flex;
-  margin-top: 10px;
+  margin-top: 20px; /* Added more spacing for better visual separation */
 }
 
 .post-image img {
-  max-width: 30%;
-  height: auto;
+  display: block;
+  width: 100%; /* Display image at full width of the container */
+  max-height: 100%; /* Maintain aspect ratio and prevent image distortion */
+  border: 1px solid #e0e0e0; /* Add a subtle border */
+  border-radius: 8px; /* Apply a slight border radius for a softer look */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Apply a subtle shadow */
+  transition: transform 0.2s, box-shadow 0.2s; /* Add smooth transitions */
+}
+
+.post-image img:hover {
+  transform: scale(1.03); /* Slightly zoom in on hover */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
 }
 
 .post-page-container {
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 40px; /* Increased padding for better content spacing */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  color: #000;
-  border-radius: 5px;
+  color: #333; /* Adjusted text color for better readability */
+  border-radius: 8px;
 }
 
 .post-page-container h1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bolder;
   margin-top: 10px;
+  text-align: center; /* Center-align the title */
+  font-size: 32px; /* Larger title font size */
+  margin-bottom: 20px; /* Increased margin for better separation */
+  color: #222; /* Slightly darker title color */
 }
 
 .post-page-image {
-  margin-top: 10px;
-  margin-bottom: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 20px; /* Increased top margin */
 }
 
 .post-page-image img {
   max-width: 100%;
   height: auto;
+  border-radius: 8px; /* Apply border radius to images */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .post-page-meta {
   display: flex;
-  justify-content: space-evenly;
-  font-size: 13px;
+  justify-content: center; /* Center-align the meta information */
+  font-size: 14px; /* Slightly larger font size */
   font-style: italic;
-  color: #333;
+  color: #555; /* Softer meta text color */
+  margin-top: 10px; /* Increased top margin */
 }
 
 .post-page-content {
   text-align: justify;
-  margin-top: 20px;
-  font-family: "Nunito", sans-serif; /* Apply the desired font family */
+  margin-top: 30px; /* Increased top margin for better spacing */
+  font-family: "Nunito", sans-serif;
   font-size: 18px;
+  line-height: 1.6; /* Improved line spacing for readability */
+  color: #333;
 }
 
 .create-post-form {

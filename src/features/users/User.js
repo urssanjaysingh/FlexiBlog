@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import AvatarUploadForm from './AvatarUploadForm';
 import useTitle from '../../hooks/useTitle';
+import { useUpdateUserMutation } from './userApiSlice';
 
-const User = ({ user, avatarUrl, handleUpdateUser }) => {
-    useTitle('Your Profile')
+const User = ({ user, avatar }) => {
+    useTitle('Your Profile');
+
     const [editMode, setEditMode] = useState(false);
-    const [editedName, setEditedName] = useState(user.name);
-    const [editedBio, setEditedBio] = useState(user.bio);
-
-    // Store the current avatar data in a state variable
-    const [currentAvatar, setCurrentAvatar] = useState(avatarUrl);
-
-    const updateAvatar = (newAvatarUrl) => {
-        newAvatarUrl = `http://localhost:3500/avatars/${newAvatarUrl}?timestamp=${Date.now()}`;
-        setCurrentAvatar(newAvatarUrl);
-        console.log(currentAvatar)
-    };
+    const [editedName, setEditedName] = useState(user.profile.name);
+    const [editedBio, setEditedBio] = useState(user.profile.bio);
+    const [selectedImage, setSelectedImage] = useState(avatar);
+    const [imageRefreshKey, setImageRefreshKey] = useState(Date.now());
+    const [updateUser] = useUpdateUserMutation();
 
     const handleEdit = () => {
         setEditMode(true);
@@ -26,30 +21,37 @@ const User = ({ user, avatarUrl, handleUpdateUser }) => {
     const handleCancel = () => {
         setEditMode(false);
         // Reset edited data to current user data
-        setEditedName(user.name);
-        setEditedBio(user.bio);
+        setEditedName(user.profile.name);
+        setEditedBio(user.profile.bio);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Create a FormData object to send the edited data
-        const formData = new FormData();
-        formData.append('name', editedName);
-        formData.append('bio', editedBio);
+        try {
+            const formData = new FormData();
+            formData.append('name', editedName);
+            formData.append('bio', editedBio);
 
-        // Append the current avatar data to the FormData
-        formData.append('avatar', currentAvatar);
+            if (selectedImage) {
+                formData.append('avatar', selectedImage);
+            }
 
-        // Call the handleUpdateUser function to update user data
-        handleUpdateUser(user.id, {
-            name: editedName,
-            bio: editedBio
-            // You can also include other updated fields here
-        });
+            const response = await updateUser({ userData: formData });
 
-        // Exit edit mode after successful update
-        setEditMode(false);
+            if (response.data.user.profile.avatar) {
+                setSelectedImage((response.data.user.profile.avatar));
+
+                // Update the key to force a refresh of the image
+                setImageRefreshKey(Date.now());
+            } else {
+                console.error('Avatar update failed. Response structure does not match expectations.');
+            }
+
+            setEditMode(false);
+        } catch (error) {
+            console.error('Profile update failed:', error);
+        }
     };
 
     return (
@@ -58,29 +60,63 @@ const User = ({ user, avatarUrl, handleUpdateUser }) => {
                 <h2 className="user-profile__username">{user.username}</h2>
                 <p className="user-profile__email">{user.email}</p>
                 {editMode ? (
-                    <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <input
-                            type="text"
-                            value={editedName}
-                            onChange={(e) => setEditedName(e.target.value)}
-                            className="user-profile__input"
-                        />
-                        <textarea
-                            value={editedBio}
-                            onChange={(e) => setEditedBio(e.target.value)}
-                            className="user-profile__input"
-                        />
-                        <div>
-                            <button type="submit" className="user-profile__button">Save Changes</button>
-                            <button type="button" onClick={handleCancel} className="user-profile__button">Cancel</button>
-                        </div>
-                    </form>
+                    <div className="form-container">
+                        <form onSubmit={handleSubmit} encType="multipart/form-data">
+                            <div className="mb-3">
+                                <input
+                                    placeholder='Full Name'
+                                    type="text"
+                                    value={editedName}
+                                    onChange={(e) => setEditedName(e.target.value)}
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <textarea
+                                    placeholder='Write your bio'
+                                    value={editedBio}
+                                    onChange={(e) => setEditedBio(e.target.value)}
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="avatar">Choose an Avatar Image:</label>
+                                <input
+                                    type="file"
+                                    id="avatar"  // Make sure this matches the key in FormData
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const newImage = e.target.files[0];
+                                        if (newImage) {
+                                            setSelectedImage(newImage);
+                                        }
+                                    }}
+                                    className="avatar-input"
+                                />
+                            </div>
+                            <div className="button-container">
+                                <button type="submit" className="btn btn-primary">Save Changes</button>
+                                <span className="space"></span>
+                                <button type="button" onClick={handleCancel} className="btn btn-secondary">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
                 ) : (
-                    <>
+                        <>
+                            <div className="user-profile__info">
+                                <div className="user-profile__avatar">
+                                    <br />
+                                    <img
+                                        key={imageRefreshKey} // Use the key to force image refresh
+                                        src={`http://localhost:3500/avatars/${selectedImage}?refreshKey=${imageRefreshKey}`} // Append a query parameter
+                                        alt=''
+                                    />
+                                </div>
+                            </div>
                         <div className="user-profile__container">
                             <div style={{ display: 'inline-block', marginRight: '10px' }}>
-                                <p className="user-profile__name">Name: {user.name}</p>
-                                <p className="user-profile__bio">Bio: {user.bio}</p>
+                                <p className="user-profile__name">Name: {user.profile.name}</p>
+                                <p className="user-profile__bio">Bio: {user.profile.bio}</p>
                             </div>
                             <div style={{ display: 'inline-block' }}>
                                 {!editMode && (
@@ -93,20 +129,10 @@ const User = ({ user, avatarUrl, handleUpdateUser }) => {
                                 )}
                             </div>
                         </div>
-                        <div className="user-profile__info">
-                            <div className="user-profile__avatar">
-                                <br />
-                                <img src={currentAvatar} alt={`${user.username}'s avatar`} />
-                                <AvatarUploadForm
-                                    setCurrentAvatar={setCurrentAvatar}
-                                    updateAvatar={updateAvatar}
-                                />
-                            </div>
-                        </div>
                     </>
                 )}
             </div>
-        </section>
+        </section >
     );
 };
 

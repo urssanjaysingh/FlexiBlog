@@ -46,12 +46,12 @@ const UserProfile = () => {
         const user = entities[userId];
 
         if (user) {
-            const avatarUrl = `http://localhost:3500/avatars/${user.avatar}?timestamp=${Date.now()}`;
+            const avatar = user.profile.avatar;
 
             content = (
                 <User
                     user={user}
-                    avatarUrl={avatarUrl}
+                    avatar={avatar}
                     handleUpdateUser={handleUpdateUser}
                 />
             );

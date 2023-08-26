@@ -7,6 +7,8 @@ import usePersist from '../../hooks/usePersist';
 import Cookies from 'js-cookie';
 import useTitle from "../../hooks/useTitle";
 import PulseLoader from 'react-spinners/PulseLoader'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -80,9 +82,6 @@ const Login = () => {
             setPassword('');
             navigate('/dash');
 
-            // Display tokens and user information in the console
-            console.log('Access Token:', accessToken);
-            console.log('User ID:', userId);
         } catch (err) {
             if (!err.status) {
                 setErrMsg('No Server Response');
@@ -173,9 +172,15 @@ const Login = () => {
                 </div>
             </main>
             <footer>
-                <Link to="/" className="btn btn-link">Home</Link>
-                <span className="space"></span>
-                <Link to="/register" className="btn btn-link">Sign Up</Link>
+                <div className="button-container">
+                    <Link to="/" className="btn btn-link">
+                        <FontAwesomeIcon icon={faHome} /> Home
+                    </Link>
+                    <span className="space"></span>
+                    <Link to="/register" className="btn btn-link">
+                        <FontAwesomeIcon icon={faUserPlus} /> Sign Up
+                    </Link>
+                </div>
             </footer>
         </section>
     );

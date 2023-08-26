@@ -50,7 +50,6 @@ const UpdatePostForm = ({ postId, initialValues, onUpdateSuccess }) => {
             console.log('Post updated successfully:', response.message);
 
             if (response.post.image) {
-                console.log(response.post.image.path);
                 // Update selectedImage with the new image path from the response
                 setSelectedImage(response.post.image.path);
             }

@@ -29,9 +29,18 @@ const PostPage = () => {
                                 Created at: {new Date(post.createdAt).toLocaleDateString()}
                             </span>
                             <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
                             <span className="tags">Tags: {post.tags.join(', ')}</span>
                             <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
                             <span className="author">Author: {post.author && post.author.profile.name ? post.author.profile.name : 'Unknown'}</span>
+                            <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
                             <span className="space"></span>
                             <span className="updated-at">
                                 Updated at: {new Date(post.updatedAt).toLocaleDateString()}

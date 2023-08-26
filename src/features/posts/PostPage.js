@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { useGetPostByIdQuery } from './postApiSlice';
 import PulseLoader from 'react-spinners/PulseLoader'
 import useTitle from '../../hooks/useTitle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faUserPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 const PostPage = () => {
     useTitle('Post Page')
@@ -23,9 +25,22 @@ const PostPage = () => {
         <>
             <header className="dash-header">
                 <div className="dash-header__container">
-                    <Link to="/">
-                        <h1 className="dash-header__title">FlexiBlog</h1>
-                    </Link>
+                    <Link to="/"><h1 className="dash-header__title">FlexiBlog</h1></Link>
+
+                    <nav className="dash-header__nav">
+                        <Link to="/" className="btn btn-link">
+                            <FontAwesomeIcon icon={faHome} /> Home
+                        </Link>
+
+                        <Link to="/register" className="btn btn-link">
+                            <FontAwesomeIcon icon={faUserPlus} /> Sign Up
+                        </Link>
+
+                        <Link to="/login" className="btn btn-link">
+                            <FontAwesomeIcon icon={faSignInAlt} /> Sign In
+                        </Link>
+                    </nav>
+
                 </div>
             </header>
             <section className="public">
@@ -36,9 +51,18 @@ const PostPage = () => {
                                 Created at: {new Date(post.createdAt).toLocaleDateString()}
                             </span>
                             <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
                             <span className="tags">Tags: {post.tags.join(', ')}</span>
                             <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
                             <span className="author">Author: {post.author && post.author.profile.name ? post.author.profile.name : 'Unknown'}</span>
+                            <span className="space"></span>
+                            <span className="space"></span>
+                            <span className="space"></span>
                             <span className="space"></span>
                             <span className="updated-at">
                                 Updated at: {new Date(post.updatedAt).toLocaleDateString()}
@@ -57,12 +81,7 @@ const PostPage = () => {
                     <br />
                     <Link to={`/posts`} className="btn btn-link">Back</Link>
                 </div>
-                </section>
-            <footer className="dash-footer">
-                <Link to="/posts" className="btn btn-link">All Posts</Link>
-                <Link to="/register" className="btn btn-link">Sign Up</Link>
-                <Link to="/login" className="btn btn-link">Sign In</Link>
-            </footer>
+            </section>
         </>
     );
 };

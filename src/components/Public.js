@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faSignInAlt, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
 const Public = () => {
     const content = (
@@ -12,9 +14,19 @@ const Public = () => {
             </main>
             <footer className="home__footer">
                 <div className="footer-links">
-                    <Link className='btn btn-link' to="/register">Sign Up</Link>
-                    <Link className='btn btn-link' to="/login">Sign In</Link>
-                    <Link className='btn btn-link' to="/posts">Explore Blog Posts</Link>
+                    <div className="button-container">
+                        <Link className="btn btn-link" to="/register">
+                            <FontAwesomeIcon icon={faUser} /> Sign Up
+                        </Link>
+                        <span className="space"></span>
+                        <Link className="btn btn-link" to="/login">
+                            <FontAwesomeIcon icon={faSignInAlt} /> Sign In
+                        </Link>
+                        <span className="space"></span>
+                        <Link className="btn btn-link" to="/posts">
+                            <FontAwesomeIcon icon={faBookOpen} /> Explore Blog Posts
+                        </Link>
+                    </div>
                 </div>
             </footer>
         </section>

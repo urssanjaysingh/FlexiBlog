@@ -17,7 +17,11 @@ const UserPostList = () => {
     if (isLoading) return <PulseLoader color={"#FFF"} />
 
     if (isError) {
-        return <div>Error: {error.message}</div>;
+        if (error.status === 404) {
+            return <div>Posts not found</div>;
+        } else {
+            return <div>Error: {error.message}</div>;
+        }
     }
 
     const handleUpdateClick = (postId) => {
@@ -56,7 +60,7 @@ const UserPostList = () => {
                                             </div>
                                         )}
                                         <div className="post-meta">
-                                            <span style={{ color: "white" }} className="author">Author: {post.author && post.author.profile.name ? post.author.profile.name : 'Unknown'}</span><br />
+                                            <span className="author">Author: {post.author && post.author.profile.name ? post.author.profile.name : 'Unknown'}</span><br />
                                             <span className="tags">Tags: {post.tags.join(', ')}</span><br />
                                             <span className="created-at">
                                                 Created at: {new Date(post.createdAt).toLocaleDateString()}

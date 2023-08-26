@@ -36,16 +36,18 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }
         }),
         updateUser: builder.mutation({
-            query: initialUserData => ({
-                url: '/user/update',
-                method: 'PATCH',
-                body: {
-                    ...initialUserData,
-                }
+            query: ({ userId, userData }) => ({
+                url: `/user/update`, // Adjust the API endpoint URL
+                method: 'PUT', // Use the appropriate HTTP method
+                body: userData,
             }),
-            invalidatesTags: (result, error, arg) => [
-                { type: 'User', id: arg.id }
-            ]
+            transformResponse: (responseData) => ({
+                id: responseData._id,
+                ...responseData
+            }),
+            invalidatesTags: (result, error, { userId }) => [
+                { type: 'User', id: userId }
+            ],
         }),
     }),
 })

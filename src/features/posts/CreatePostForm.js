@@ -2,9 +2,11 @@ import React, { useState, useRef } from 'react';
 import { useCreatePostMutation } from './postApiSlice';
 import { useNavigate } from 'react-router-dom';
 import useTitle from '../../hooks/useTitle';
+import Cookies from 'js-cookie';
 
 const CreatePostForm = () => {
     useTitle('Create New Post');
+    const userId = Cookies.get('userId');
     const [createPost] = useCreatePostMutation();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -42,29 +44,20 @@ const CreatePostForm = () => {
             formData.append('image', selectedFile);
         }
 
-        // Log the values before submitting
-        console.log('Title:', title);
-        console.log('Content:', content);
-        console.log('Tags:', tags);
-
         try {
             // Call the createPost mutation with the postData
             const response = await createPost(formData).unwrap();
-            console.log(response);
 
             // Handle successful post creation (if needed)
             console.log('Post created successfully:', response.message);
-            
+
             // Reset the form
             resetForm();
             // Display success message to the user (you can use a state variable)
             setSuccessMessage('Post created successfully!');
 
-            // After a delay, clear the success message and navigate back
-            setTimeout(() => {
-                setSuccessMessage('');
-                navigate(-1); // You can also provide a custom path here if needed
-            }, 1000); // Display the message for 3 seconds
+            navigate(`/dash/post/user/${userId}`); // You can also provide a custom path here if needed
+
         } catch (error) {
             // Handle error
             console.error('Error creating post:', error);
@@ -98,6 +91,7 @@ const CreatePostForm = () => {
                         required
                         autoComplete='off'
                         style={{
+                            maxWidth: "100%",
                             maxHeight: 'none',
                             height: 'auto',
                             whiteSpace: 'pre-wrap', // This preserves line breaks and whitespace

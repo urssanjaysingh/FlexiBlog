@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faHome, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
-import { useRegisterMutation } from '../features/auth/authApiSlice'
-import PulseLoader from 'react-spinners/PulseLoader'
+import { useRegisterMutation } from '../features/auth/authApiSlice';
+import PulseLoader from 'react-spinners/PulseLoader'; 
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -117,7 +117,7 @@ const Register = () => {
                 <div className="register" style={{ width: "400px" }}>
                     {success ? (
                         <div className="text-center">
-                            <h1>Success!</h1>
+                            <h1>Registration Successfull!</h1>
                             <br />
                             <p>
                                 <Link to="/login" className="btn btn-primary">Sign In</Link>
@@ -235,9 +235,15 @@ const Register = () => {
                 </div>
             </main>
             <footer>
-                <Link to="/" className="btn btn-link">Home</Link>
-                <span className="space"></span>
-                <Link to="/login" className="btn btn-link">Sign In</Link>
+                <div className="button-container">
+                    <Link to="/" className="btn btn-link">
+                        <FontAwesomeIcon icon={faHome} /> Home
+                    </Link>
+                    <span className="space"></span>
+                    <Link to="/login" className="btn btn-link">
+                        <FontAwesomeIcon icon={faSignInAlt} /> Sign In
+                    </Link>
+                </div>
             </footer>
         </section>
     );
