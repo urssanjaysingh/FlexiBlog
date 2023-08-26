@@ -18,17 +18,17 @@ const Welcome = () => {
             <p>{today}</p>
             <h1>Welcome! {username}</h1>
             <p style={{ color: "black" }}>
-                <Link to={`/dash/post/user/${userId}`}>
+                <Link style={{ color: "black" }} to={`/dash/post/user/${userId}`}>
                     <FontAwesomeIcon icon={faList} /> View Posts
                 </Link>
             </p>
             <p style={{ color: "black" }}>
-                <Link to="/dash/users">
+                <Link style={{ color: "black" }} to="/dash/users">
                     <FontAwesomeIcon icon={faUser} /> View Profile
                 </Link>
             </p>
             <p style={{ color: "black" }}>
-                <Link to="/dash/post/create">
+                <Link style={{ color: "black" }} to="/dash/post/create">
                     <FontAwesomeIcon icon={faEdit} /> Create Post
                 </Link>
             </p>
