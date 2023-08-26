@@ -4,6 +4,7 @@ import { useGetPostsQuery, selectAllPosts } from './postApiSlice';
 import PulseLoader from 'react-spinners/PulseLoader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { Helmet } from 'react-helmet-async';
 
 const PostList = () => {
     const { data: postsData, isLoading, isError, error } = useGetPostsQuery();
@@ -19,26 +20,53 @@ const PostList = () => {
         }
     }
 
+    function loadHamburgerMenuScript() {
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const nav = document.querySelector('.dash-header__nav');
+
+        hamburgerMenu.addEventListener('click', function () {
+            nav.classList.toggle('active');
+        });
+    }
+
     return (
         <>
             <header className="dash-header">
                 <div className="dash-header__container">
                     <Link to="/"><h1 className="dash-header__title">FlexiBlog</h1></Link>
 
-                    <nav className="dash-header__nav">
-                        <Link to="/" className="btn btn-link">
-                            <FontAwesomeIcon icon={faHome} /> Home
-                        </Link>
+                    <div class="nav-container">
+                        <div class="hamburger-menu">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                        <nav class="dash-header__nav">
+                            <Link to="/" class="btn btn-link">
+                                <FontAwesomeIcon icon={faHome} /> Home
+                            </Link>
 
-                        <Link to="/register" className="btn btn-link">
-                            <FontAwesomeIcon icon={faUserPlus} /> Sign Up
-                        </Link>
+                            <Link to="/register" class="btn btn-link">
+                                <FontAwesomeIcon icon={faUserPlus} /> Sign Up
+                            </Link>
 
-                        <Link to="/login" className="btn btn-link">
-                            <FontAwesomeIcon icon={faSignInAlt} /> Sign In
-                        </Link>
-                    </nav>
+                            <Link to="/login" class="btn btn-link">
+                                <FontAwesomeIcon icon={faSignInAlt} /> Sign In
+                            </Link>
+                        </nav>
+                    </div>
 
+                    <Helmet>
+                        <script>
+                            {`
+                        document.addEventListener('DOMContentLoaded', function () {
+                            ${loadHamburgerMenuScript.toString()}
+                            loadHamburgerMenuScript();
+                        });
+                    `}
+                        </script>
+                    </Helmet>
+                    
                 </div>
             </header>
             <section className="public">
