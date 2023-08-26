@@ -4,7 +4,6 @@ import { useGetPostsQuery, selectAllPosts } from './postApiSlice';
 import PulseLoader from 'react-spinners/PulseLoader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserPlus, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { Helmet } from 'react-helmet-async';
 
 const PostList = () => {
     const { data: postsData, isLoading, isError, error } = useGetPostsQuery();
@@ -18,15 +17,6 @@ const PostList = () => {
         } else {
             return <div>Error: {error.message}</div>;
         }
-    }
-
-    function loadHamburgerMenuScript() {
-        const hamburgerMenu = document.querySelector('.hamburger-menu');
-        const nav = document.querySelector('.dash-header__nav');
-
-        hamburgerMenu.addEventListener('click', function () {
-            nav.classList.toggle('active');
-        });
     }
 
     return (
@@ -56,17 +46,6 @@ const PostList = () => {
                         </nav>
                     </div>
 
-                    <Helmet>
-                        <script>
-                            {`
-                        document.addEventListener('DOMContentLoaded', function () {
-                            ${loadHamburgerMenuScript.toString()}
-                            loadHamburgerMenuScript();
-                        });
-                    `}
-                        </script>
-                    </Helmet>
-                    
                 </div>
             </header>
             <section className="public">
