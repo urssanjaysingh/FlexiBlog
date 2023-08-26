@@ -108,7 +108,7 @@ const User = ({ user, avatar }) => {
                                     <br />
                                     <img
                                         key={imageRefreshKey} // Use the key to force image refresh
-                                        src={`http://localhost:3500/avatars/${selectedImage}?refreshKey=${imageRefreshKey}`} // Append a query parameter
+                                        src={`https://flexiblog-api.onrender.com/avatars/${selectedImage}?refreshKey=${imageRefreshKey}`} // Append a query parameter
                                         alt=''
                                     />
                                 </div>

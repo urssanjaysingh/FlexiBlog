@@ -56,7 +56,7 @@ const UserPostList = () => {
                                         </button>
                                         {post.image && post.image.filename && post.image.path && (
                                             <div className="post-image">
-                                                <img src={`http://localhost:3500${post.image.path}`} alt={post.image.filename} />
+                                                    <img src={`https://flexiblog-api.onrender.com${post.image.path}`} alt={post.image.filename} />
                                             </div>
                                         )}
                                         <div className="post-meta">
