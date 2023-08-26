@@ -14,7 +14,7 @@ const Welcome = () => {
     const today = new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'long' }).format(date);
 
     const content = (
-        <section className="welcome">
+        <section style={{ color: "black" }} className="welcome">
             <p>{today}</p>
             <h1>Welcome! {username}</h1>
             <p>
