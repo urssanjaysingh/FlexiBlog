@@ -810,19 +810,6 @@ input[type=file]::file-selector-button:hover {
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
-    .dash-header {
-        flex-direction: column; /* Stack items vertically */
-        text-align: center; /* Center-align text and icons */
-    }
-
-    .dash-header__nav {
-        flex-direction: column; /* Stack icons vertically */
-        margin-top: 10px; /* Add space between title and icons */
-    }
-}
-
-/* Media query for smaller screens */
-@media (max-width: 768px) {
     .button-container {
         flex-direction: column; /* Stack buttons vertically */
         align-items: center; /* Center align buttons */
