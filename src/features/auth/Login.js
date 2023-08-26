@@ -172,7 +172,7 @@ const Login = () => {
                 </div>
             </main>
             <footer>
-                <div className="button-container">
+                <div className="form-button-container">
                     <Link to="/" className="btn btn-link">
                         <FontAwesomeIcon icon={faHome} /> Home
                     </Link>

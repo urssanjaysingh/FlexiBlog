@@ -424,6 +424,12 @@ tr {
   margin-top: 20px; /* Adjust the margin as needed */
 }
 
+.form-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
 /* Basic styling for btn class */
 .btn {
   display: inline-block;
@@ -803,6 +809,18 @@ input[type=file]::file-selector-button:hover {
   }
 }
 
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center; /* Center align buttons */
+    }
+
+    .btn {
+        margin: 5px 0; /* Add some vertical spacing between buttons */
+    }
+}
+
 @media (max-width: 768px) {
   .footer-links {
     flex-direction: column; /* Change to a vertical layout */
@@ -811,34 +829,38 @@ input[type=file]::file-selector-button:hover {
   }
 }
 
-@media screen and (min-width: 768px) {
-  body {
-    font-size: 1.25rem;
+/* Adjust styles for smaller screens */
+@media screen and (max-width: 768px) {
+  /* Existing styles for smaller screens */
+
+  /* Additional adjustments */
+  .dash-header__container {
+    flex-flow: column nowrap; /* Stack navigation elements vertically */
+    align-items: center;
   }
 
-  .dash-header {
-    padding: 0 1em;
+  .dash-header__nav {
+    margin-top: 1em;
   }
 
-  .dash-container {
-    padding: 1em;
+  .icon-button {
+    font-size: 1.2rem; /* Further reduce button size */
   }
 
-  .table {
-    font-size: 1.5rem;
+  .public {
+    padding: 0.5em;
+  }
+
+  .public__main,
+  .public__addr {
+    padding: 0.5em; /* Adjust padding for smaller screens */
   }
 
   .table--notes {
-    grid-template-columns: repeat(3, 1fr) 2fr repeat(2, 1fr);
+    grid-template-columns: 1fr repeat(2, 2fr); /* Simplify table columns */
   }
 
-  .note__created,
-  .note__updated,
-  .note__username {
-    display: block;
-  }
-
-  .form__action-buttons {
-    position: static;
+  .table__cell {
+    padding: 0.25em; /* Reduce cell padding */
   }
 }
