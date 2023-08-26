@@ -17,18 +17,18 @@ const Welcome = () => {
         <section style={{ color: "black" }} className="welcome">
             <p>{today}</p>
             <h1>Welcome! {username}</h1>
-            <p style={{ color: "black" }}>
-                <Link style={{ color: "black" }} to={`/dash/post/user/${userId}`}>
+            <p>
+                <Link to={`/dash/post/user/${userId}`} style={{ color: "black" }}>
                     <FontAwesomeIcon icon={faList} /> View Posts
                 </Link>
             </p>
-            <p style={{ color: "black" }}>
-                <Link style={{ color: "black" }} to="/dash/users">
+            <p>
+                <Link to="/dash/users" style={{ color: "black" }}>
                     <FontAwesomeIcon icon={faUser} /> View Profile
                 </Link>
             </p>
-            <p style={{ color: "black" }}>
-                <Link style={{ color: "black" }} to="/dash/post/create">
+            <p>
+                <Link to="/dash/post/create" style={{ color: "black" }}>
                     <FontAwesomeIcon icon={faEdit} /> Create Post
                 </Link>
             </p>
