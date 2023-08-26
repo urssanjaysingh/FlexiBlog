@@ -53,10 +53,13 @@ const CreatePostForm = () => {
 
             // Reset the form
             resetForm();
-            // Display success message to the user (you can use a state variable)
+            // Display success message to the user
             setSuccessMessage('Post created successfully!');
 
-            navigate(`/dash/post/user/${userId}`); // You can also provide a custom path here if needed
+            // After a delay, clear the success message
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 10000); // Display the message for 5 seconds (adjust as needed)
 
         } catch (error) {
             // Handle error
@@ -66,7 +69,18 @@ const CreatePostForm = () => {
 
     return (
         <div style={{ maxWidth: "100%" }} className="form-container">
-            {successMessage && <div className="success-message">{successMessage}</div>}
+            {successMessage && (
+                <div className="success-message">
+                    {successMessage}
+                    <span className="space"></span>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => navigate(`/dash/post/user/${userId}`)}
+                    >
+                        View Post
+                    </button>
+                </div>
+            )}
             <form onSubmit={handleSubmit} encType="multipart/form-data" className="create-post-form">
                 <div className="create-form-group">
                     <input
@@ -122,6 +136,26 @@ const CreatePostForm = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">
                     Create Post
+                </button>
+                <span className="space"></span>
+                <button
+                    className="btn btn-secondary"
+                    style={{
+                        color: "black",
+                        backgroundColor: "white",
+                        transition: "background-color 0.3s, color 0.3s", // Add a smooth transition
+                    }}
+                    onClick={() => navigate(-1)}
+                    onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = "#ccc"; // Change background to black on hover
+                        e.currentTarget.style.color = "white"; // Change text color to white on hover
+                    }}
+                    onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = "white"; // Restore original background color on hover out
+                        e.currentTarget.style.color = "black"; // Restore original text color on hover out
+                    }}
+                >
+                    Cancel
                 </button>
             </form>
         </div>

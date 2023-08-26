@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import useTitle from '../../hooks/useTitle';
 import { useUpdateUserMutation } from './userApiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const User = ({ user, avatar }) => {
     useTitle('Your Profile');
 
+    const navigate = useNavigate();
     const [editMode, setEditMode] = useState(false);
     const [editedName, setEditedName] = useState(user.profile.name);
     const [editedBio, setEditedBio] = useState(user.profile.bio);
@@ -16,13 +18,6 @@ const User = ({ user, avatar }) => {
 
     const handleEdit = () => {
         setEditMode(true);
-    };
-
-    const handleCancel = () => {
-        setEditMode(false);
-        // Reset edited data to current user data
-        setEditedName(user.profile.name);
-        setEditedBio(user.profile.bio);
     };
 
     const handleSubmit = async (event) => {
@@ -97,7 +92,25 @@ const User = ({ user, avatar }) => {
                             <div className="button-container">
                                 <button type="submit" className="btn btn-primary">Save Changes</button>
                                 <span className="space"></span>
-                                <button type="button" onClick={handleCancel} className="btn btn-secondary">Cancel</button>
+                                <button
+                                    className="btn btn-secondary"
+                                    style={{
+                                        color: "black",
+                                        backgroundColor: "white",
+                                        transition: "background-color 0.3s, color 0.3s", // Add a smooth transition
+                                    }}
+                                    onClick={() => navigate("/dash/users")}
+                                    onMouseOver={(e) => {
+                                        e.currentTarget.style.backgroundColor = "#ccc"; // Change background to black on hover
+                                        e.currentTarget.style.color = "white"; // Change text color to white on hover
+                                    }}
+                                    onMouseOut={(e) => {
+                                        e.currentTarget.style.backgroundColor = "white"; // Restore original background color on hover out
+                                        e.currentTarget.style.color = "black"; // Restore original text color on hover out
+                                    }}
+                                >
+                                    Cancel
+                                </button>
                             </div>
                         </form>
                     </div>
