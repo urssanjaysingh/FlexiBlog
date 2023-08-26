@@ -24,7 +24,6 @@ const PostList = () => {
             <header className="dash-header">
                 <div className="dash-header__container">
                     <Link to="/"><h1 className="dash-header__title">FlexiBlog</h1></Link>
-
                         <nav class="dash-header__nav">
                             <Link to="/" class="btn btn-link">
                                 <FontAwesomeIcon icon={faHome} /> Home
@@ -38,7 +37,6 @@ const PostList = () => {
                                 <FontAwesomeIcon icon={faSignInAlt} /> Sign In
                             </Link>
                         </nav>
-
                 </div>
             </header>
             <section className="public">
