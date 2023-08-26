@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faUser, faEdit, faList } from "@fortawesome/free-solid-svg-icons"; // Import the icons for the buttons
+import { faRightFromBracket, faHome, faUser, faEdit, faList } from "@fortawesome/free-solid-svg-icons"; // Import the icons for the buttons
 import { useNavigate, Link } from 'react-router-dom';
 import PulseLoader from 'react-spinners/PulseLoader';
 import { useSendLogoutMutation } from '../features/auth/authApiSlice';
@@ -25,6 +25,14 @@ const DashHeader = () => {
     if (isLoading) return <PulseLoader color={"#FFF"} />;
 
     if (isError) return <p>Error: {error.data?.message}</p>;
+
+    const homeButton = (
+        <Link to="/dash">
+            <button className="icon-button" title="Dashboard Home">
+                <FontAwesomeIcon icon={faHome} />
+            </button>
+        </Link>
+    );
 
     const postListButton = (
         <Link to={`/dash/post/user/${userId}`}>
@@ -59,7 +67,7 @@ const DashHeader = () => {
             <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
     );
-
+    
     const content = (
         <header className="dash-header">
             <div className="dash-header__container">
@@ -67,6 +75,7 @@ const DashHeader = () => {
                     <h1 className="dash-header__title">FlexiBlog</h1>
                 </Link>
                 <nav className="dash-header__nav">
+                    {homeButton}
                     {postListButton}
                     {profileButton}
                     {createPostButton}
