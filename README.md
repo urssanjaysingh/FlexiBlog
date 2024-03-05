@@ -39,3 +39,4 @@ Explore the live FlexiBlog website by following the link below:
 Click the button above to access the live website and start sharing your stories with the world.
 
 For bloggers, writers, and content enthusiasts, FlexiBlog is your creative canvas to express and connect.
+:)
